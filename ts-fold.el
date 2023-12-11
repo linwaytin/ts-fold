@@ -819,6 +819,20 @@ information."
       (setq end (ts-fold--last-eol end)))
     (ts-fold--cons-add (cons beg end) offset)))
 
+(defun ts-fold-range-julia-if-for-while (node offset)
+  "Return the fold range for a NODE in Julia.
+
+It excludes the NODE's first child and the `end' keyword.  For
+argument OFFSET, see function `ts-fold-range-seq' for more
+information."
+  (when-let* ((condition (tsc-get-nth-named-child node 0))
+              (beg (tsc-node-end-position condition))
+              (end (tsc-node-end-position node))
+              (end (- end 3)))
+    (when ts-fold-on-next-line  ; display nicely
+      (setq end (ts-fold--last-eol end)))
+    (ts-fold--cons-add (cons beg end) offset)))
+
 (defun ts-fold-range-kotlin-when (node offset)
   "Return the fold range for `when' NODE in Kotlin.
 

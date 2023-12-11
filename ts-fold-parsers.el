@@ -328,9 +328,10 @@
 (defun ts-fold-parsers-julia ()
   "Rule set for Julia."
   '((block_comment       . (ts-fold-range-seq 1 -1))
-    (for_statement       . (ts-fold-range-seq 2 -2))
+    (for_statement        . ts-fold-range-julia-if-for-while)
     (function_definition . ts-fold-range-julia-function)
-    (if_statement        . ts-fold-range-julia-if)
+    (function_expression . ts-fold-range-julia-function)
+    (if_statement        . ts-fold-range-julia-if-for-while)
     (let_statement       . ts-fold-range-julia-let)
     (macro_definition    . ts-fold-range-julia-function)
     (module_definition   . ts-fold-range-julia-function)
@@ -338,7 +339,7 @@
     (struct_definition   . ts-fold-range-julia-function)
     (triple_string       . (ts-fold-range-seq 2 -2))
     (try_statement       . (ts-fold-range-seq 2 -2))
-    (while_statement     . ts-fold-range-julia-function)
+    (while_statement     . ts-fold-range-julia-if-for-while)
     (comment
      . (lambda (node offset)
          (ts-fold-range-line-comment node offset "#")))))
